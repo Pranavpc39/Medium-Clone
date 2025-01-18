@@ -1,0 +1,1 @@
+export const BACKEND_URL = 'https://backend.pc39chougule.workers.dev'
