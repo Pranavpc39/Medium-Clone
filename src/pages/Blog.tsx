@@ -59,17 +59,27 @@ const BlogContentSkeleton = () => {
   );
 };
 
-export const Blog = () =>{
-    const { id } = useParams()
-    const {loading, blog} = useBlog({
-        id: id || ""
-    });
+export const Blog = () => {
+  const { id } = useParams();
+  const { loading, blog } = useBlog({
+      id: id || ""
+  });
 
-    if(loading){
-        return <BlogContentSkeleton />
-    }
+  if (loading) {
+      return <BlogContentSkeleton />;
+  }
 
-    return <div>
-        <BlogContent blog={blog}/>
-    </div>
-}
+  if (!blog) {
+      return (
+          <div className="flex justify-center items-center h-screen">
+              <div className="text-xl text-gray-600">
+                  Blog post not found or there was an error loading it.
+              </div>
+          </div>
+      );
+  }
+
+  return <div>
+      <BlogContent blog={blog} />
+  </div>
+};

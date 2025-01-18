@@ -11,38 +11,43 @@ export interface Blog{
     }
 }
 
-export const useBlog = ({ id }: {id :string}) =>{
-    const [loading, setLoading] = useState(true);
-    const [blog, setBlog] = useState<Blog>();
+interface BlogHookResult {
+    loading: boolean;
+    blog: Blog | null; // Changed from undefined to null for explicit nullability
+}
 
-    useEffect(()=>{
-        const fetchBlog = async() =>{
-            try{
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
-                    headers:{
+export const useBlog = ({ id }: { id: string }): BlogHookResult => {
+    const [loading, setLoading] = useState(true);
+    const [blog, setBlog] = useState<Blog | null>(null); // Initialize with null
+
+    useEffect(() => {
+        const fetchBlog = async () => {
+            try {
+                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+                    headers: {
                         Authorization: `${localStorage.getItem("token")}`
                     }
-                })
+                });
                 
-                setBlog(response.data.post) 
-                setLoading(false)
-                
-            }
-            catch (err:any) {
+                setBlog(response.data.post);
+                setLoading(false);
+            } catch (err: any) {
+                setLoading(false);
+                setBlog(null); // Explicitly set to null on error
                 console.error("Error details:");
                 console.error("Status code:", err.response?.status);
                 console.error("Error data:", err.response?.data);
                 console.error("Headers:", err.response?.headers);
             }
-        }
+        };
         fetchBlog();
-    },[id])
+    }, [id]);
 
-    return{
+    return {
         loading,
         blog
-    }
-}
+    };
+};
 
 export const useBlogs = () =>{
     const [loading, setLoading] = useState(true);
