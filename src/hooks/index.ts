@@ -54,7 +54,7 @@ export const useBlogs = () =>{
     const [blogs, setBlogs] = useState<Blog[]>([]);
 
     useEffect(()=>{
-        console.log("token : ",localStorage.getItem('token'));
+        // console.log("token : ",localStorage.getItem('token'));
         const fetchBlogs = async() =>{
             try{
                 const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`,{

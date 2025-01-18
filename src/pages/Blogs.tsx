@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { Appbar } from "../Components/Appbar"
 import { BlogCard } from "../Components/BlogCard"
 import { useBlogs } from "../hooks"
+import { useNavigate } from "react-router-dom";
 
 const SkeletonBlogCard = () => {
     return (
@@ -47,10 +49,18 @@ const SkeletonBlogCard = () => {
 
 export const Blogs = () =>{
 
-    const {loading, blogs} = useBlogs();
+    const {loading, blogs} = useBlogs();    
+    const navigate = useNavigate()
 
-    console.log(blogs);
-    
+    useEffect(()=>{
+      if(!localStorage.getItem('token')){
+        navigate('/signin')
+      }
+      else{
+        console.log("You are logged in");
+        
+      }
+    },[])
 
     if (loading){
         return (
@@ -75,6 +85,7 @@ export const Blogs = () =>{
             {
                 blogs.map(blog => <BlogCard 
                     id = {blog.id}
+                    key = {blog.id}
                     autherName = {blog.author.name || "Anonymous"}
                     title={blog.title}
                     content={blog.content}
