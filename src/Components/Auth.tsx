@@ -27,6 +27,9 @@ export const Auth = ({type}:AuthProps) => {
             localStorage.setItem("token",jwt)
             navigate("/")
         } catch(e){
+            if(type==="Signin"){
+                alert("Error! Ensure you have account created")
+            }
             console.log("Signup error : ",e);
         }
     }
