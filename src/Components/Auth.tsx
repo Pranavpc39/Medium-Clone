@@ -27,10 +27,18 @@ export const Auth = ({type}:AuthProps) => {
             localStorage.setItem("token",jwt)
             navigate("/")
         } catch(e){
-            if(type==="Signin"){
-                alert("Error! Ensure you have account created")
+            if (axios.isAxiosError(e)) {  // Type guard to check if it's an Axios error
+                if (type === "Signin") {
+                    alert(`${e.response?.data?.message}: User does not exist`);
+                }
+                else{
+                    alert(`${e.response?.data?.message}`)
+                }
+            } else {
+                // Handle non-Axios errors
+                alert(`An unexpected error occurred`)
+                console.log("An unexpected error occurred:", e);
             }
-            console.log("Signup error : ",e);
         }
     }
 
