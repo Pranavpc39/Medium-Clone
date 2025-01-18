@@ -5,6 +5,7 @@ import { useBlogs } from "../hooks"
 import { useNavigate } from "react-router-dom";
 
 const SkeletonBlogCard = () => {
+    
     return (
       <div className="p-5 border-b border-slate-200 w-full mt-5">
         <div className="flex items-center">
@@ -49,6 +50,17 @@ const SkeletonBlogCard = () => {
 
 export const Blogs = () =>{
 
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    console.log("---> date: ",dateString);
+    
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
     const {loading, blogs} = useBlogs();    
     const navigate = useNavigate()
 
@@ -89,7 +101,7 @@ export const Blogs = () =>{
                     autherName = {blog.author.name || "Anonymous"}
                     title={blog.title}
                     content={blog.content}
-                    publishedDate={"9th dec 2024"}
+                    publishedDate={formatDate(blog.createdAt)}
                 />)
             }
             
